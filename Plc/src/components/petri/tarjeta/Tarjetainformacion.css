@@ -1,0 +1,22 @@
+.calcite-card-resumen {
+  height: 100%; /* Que tome el alto disponible del contenedor */
+  min-height: 100px; /* Asegura que al menos tenga esta altura */
+  padding: 1rem;
+}
+
+calcite-card {
+  height: 70%;
+  display: block;
+}
+.transparent-card {
+  font-family: Arial, sans-serif;
+}
+
+.card-header {
+  cursor: grab;
+  user-select: none;
+}
+
+.card-header:active {
+  cursor: grabbing;
+}
