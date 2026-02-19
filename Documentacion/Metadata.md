@@ -25,16 +25,34 @@
 
 ---
 
-## 🏗️ Arquitectura del Proyecto
+## 🏗️ Arquitectura del Software
+La arquitectura de **LLMControl** sigue un modelo de **Agentes de Control Distribuidos** estructurado en tres niveles de abstracción:
 
-### 1. Hardware Industrial
-El sistema utiliza un **PLC basado en Raspberry Pi industrial**, encargado de la adquisición y control de señales físicas mediante interfaces **GPIO, ADC y PWM/DAC**.
+```mermaid
+graph TD
+    User((Usuario)) -- "Lenguaje Natural" --> UI[Interfaz Web React]
+    UI -- "REST / WebSockets" --> ServerPC[Servidor Inteligente Node.js]
+    
+    subgraph "Nivel de Inteligencia (Servidor PC)"
+        ServerPC --> AgentIA[Agente IA / OpenAI]
+        ServerPC --> DB[(PostgreSQL / MongoDB)]
+    end
+    
+    ServerPC -- "MQTT (Peticiones)" --> ServerPLC[Servidor PLC Raspberry Pi]
+    
+    subgraph "Nivel de Hardware (Servidor PLC)"
+        ServerPLC --> AddonC[Addon C++ rpiplc]
+        ServerPLC --> Services[Servicios de Control PI / RLS]
+        AddonC --> GPIO[Sensores / Actuadores Fisicos]
+    end
+    
+    ServerPLC -- "MQTT (Telemetria)" --> ServerPC
+```
 
-### 2. Servidor de Inteligencia
-El servidor central integra modelos de lenguaje (**LLMs**) para el procesamiento de solicitudes en lenguaje natural y coordina el flujo de datos mediante protocolos **MQTT y WebSockets**. Asimismo, realiza análisis de datos históricos almacenados en bases de datos **PostgreSQL y MongoDB**.
-
-### 3. Interfaz de Usuario
-La interacción se realiza mediante una aplicación web moderna desarrollada en **React**, donde los usuarios pueden emitir solicitudes en lenguaje natural para monitorear y controlar procesos industriales.
+**Detalles de Implementación:**
+*   **Servidor PLC:** Ejecuta tareas de tiempo real crítico (muestreo ADC, PWM) y algoritmos de identificación (RLS) en el nodo Raspberry Pi. Desarrollado en Node.js con extensiones nativas en C++.
+*   **Servidor PC:** Maneja la lógica de negocio pesada, la persistencia histórica en PostgreSQL/MongoDB y la orquestación con los modelos LLM (GPT-4o).
+*   **Interfaz de Usuario:** Construida en React, permite la visualización de datos mediante Vega-Lite y la interacción mediante lenguaje natural.
 
 ## ⚙️ Tecnologías y Algoritmos Utilizados
 
@@ -62,13 +80,40 @@ Los datos experimentales se almacenan estructuradamente, permitiendo la selecci�
 ### 3. Simulación y Control Autónomo
 El agente genera y valida modelos de control **PI** mediante simulaciones internas antes de su implementación en el sistema físico, eliminando ciclos manuales de prueba y error.
 
+## ⚙️ Funcionalidades Principales
+1.  **Interpretación Semántica:** Traduce objetivos operativos complejos en parámetros de control y lógica secuencial.
+2.  **Identificación Automática de Sistemas:** Algoritmos (como RLS y Batch Least Squares) que determinan el modelo matemático (ARX) de una planta física.
+3.  **Control PI Adaptativo:** Implementación de controladores proporcionales-integrales con anti-windup escalados para hardware industrial.
+4.  **Simulación Digital Twin:** Generación de modelos en JavaScript que permiten predecir el comportamiento del hardware antes de la ejecución física.
+5.  **Monitoreo en Tiempo Real:** Visualización de telemetría industrial (ADC, PWM, Errores) con latencia mínima.
+
 ## 🚀 Impacto y Aplicaciones
 LLMControl representa un nuevo paradigma en automatización industrial: el **Control Cognitivo Autónomo**.
 
 **Aplicaciones potenciales:**
-*   Sistemas de manufactura inteligente.
-*   Procesos industriales auto-configurables.
-*   Plataformas educativas de automatización.
+*   Sistemas de manufactura inteligente y procesos industriales auto-configurables.
+*   Laboratorios remotos de control y plataformas educativas de automatización.
+
+## 💻 Análisis de Fragmentos de Código
+
+### A. Selección de Modelos por IA (`gtpServicesIndentificacion.js`)
+El sistema utiliza GPT-4o para analizar la estabilidad de modelos matemáticos:
+```javascript
+// La IA selecciona el MEJOR modelo considerando estabilidad (polos) y parsimonia (orden).
+const prompt = `Analiza los modelos candidatos... Selecciona el MEJOR considerando el compromiso entre simplicidad (Orden) y precisión (Error).`;
+```
+
+### B. Algoritmo de Control PI Discreto (`plcServices.js`)
+Implementación de la ley de control con anti-windup sobre hardware real:
+```javascript
+function piController(error) {
+  let u = Kp * (error + (integralError / Ti));
+  if (u > 8.8) u = 8.8; // Saturación física (8.8V)
+  if (u < 0.0) u = 0.0;
+  if (u > 0.0 && u < 8.8) integralError += Ts * error; // Anti-windup
+  return u;
+}
+```
 
 ---
 
