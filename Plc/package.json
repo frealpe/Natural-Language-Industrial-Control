@@ -1,7 +1,7 @@
 {
   "name": "@coreui/coreui-pro-react-admin-template",
   "type": "module",
-  "version": "5.0.0",
+  "version": "3.0.0",
   "description": "CoreUI PRO React Admin Template",
   "config": {
     "theme": "light",

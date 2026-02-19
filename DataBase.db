@@ -1,0 +1,26 @@
+CREATE TABLE IF NOT EXISTS Comparacion (
+  id SERIAL PRIMARY KEY,
+  prueba TIMESTAMP NOT NULL,
+  resultado JSONB NOT NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE Caracterizacion (
+    id SERIAL PRIMARY KEY,
+    prueba TIMESTAMP NOT NULL DEFAULT NOW(),
+    resultado JSONB NOT NULL
+);
+
+CREATE TABLE analisis (
+    id SERIAL PRIMARY KEY,
+    rango TEXT NOT NULL,
+    datos JSONB NOT NULL,
+    embedding VECTOR(384) NOT NULL
+);
+
+CREATE TABLE DataLogger (
+    id SERIAL PRIMARY KEY,
+    prueba TIMESTAMP NOT NULL DEFAULT NOW(),
+    resultado JSONB NOT NULL
+);
+

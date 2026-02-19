@@ -9,6 +9,7 @@ const AppFooter = () => {
           Unicauca
         </a>
         <span className="ms-1">&copy; {new Date().getFullYear()}</span>
+        <span className="ms-3 fw-bold">Version V3</span>
       </div>
       <div className="ms-auto">
         <span className="me-1">Automática Industrial</span>

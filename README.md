@@ -1,4 +1,4 @@
-# Natural Language Industrial Control (LLMControl)
+# Natural Language Industrial Control (LLMControl) V3
 
 This project implements an advanced industrial control system that integrates Natural Language Processing (NLP), Artificial Intelligence (AI), and standard industrial protocols (MQTT, OPC UA) to monitor and control processes using a Raspberry Pi-based PLC.
 
