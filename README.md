@@ -70,3 +70,5 @@ Access the application at `http://localhost:5173`.
 *   **Hardware Interface**: Custom C++ Node.js Addon (`rpiplc-addon`), Industrial Shields Libraries
 *   **Protocols**: MQTT, OPC UA, HTTP, WebSocket
 *   **AI**: OpenAI API, Local LLMs (via Ollama/DeepSeek)
+## 📄 License
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

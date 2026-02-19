@@ -16,7 +16,7 @@
     "type": "git",
     "url": "git@github.com:coreui/coreui-pro-react-admin-template.git"
   },
-  "license": "SEE LICENSE IN LICENSE",
+  "license": "MIT",
   "author": "The CoreUI Team (https://github.com/orgs/coreui/people)",
   "scripts": {
     "build": "vite build",
