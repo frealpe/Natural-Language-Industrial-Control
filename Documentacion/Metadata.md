@@ -25,6 +25,11 @@
 
 ---
 
+---
+
+## 📄 Descripción del Software
+**LLMControl** es una plataforma de software integral diseñada para automatizar el ciclo de vida del control industrial mediante la convergencia de la **Inteligencia Artificial Generativa** y el control automático tradicional. El software permite pasar de una descripción en lenguaje natural a un sistema físico controlado y optimizado, eliminando la necesidad de sintonización manual experta por parte del operador.
+
 ## 🏗️ Arquitectura del Software
 La arquitectura de **LLMControl** sigue un modelo de **Agentes de Control Distribuidos** estructurado en tres niveles de abstracción:
 
